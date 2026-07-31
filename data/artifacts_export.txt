@@ -2,14 +2,14 @@
   "controlled": [
     {
       "id": 1001,
-      "name": "micROS-1.2Alpha-Standard-x86_F0OGB_20260127_T3A_T0",
+      "name": "aaa",
       "artifactVersion": "1.2Alpha",
       "description": "1.2Alpha 标准版 X86 20.04 GPU 开发版 20260127",
       "createTime": "2026-01-27T10:00:00"
     },
     {
       "id": 1002,
-      "name": "micROS-1.2Alpha-Embedded-aarch64_E01NB_20260127_O45_T0",
+      "name": "bbb",
       "artifactVersion": "1.2Alpha",
       "description": "1.2Alpha 嵌入式版 Euler 22.03 arm NPU DEV版本 20260127",
       "createTime": "2026-01-27T10:00:00"
@@ -17,14 +17,14 @@
   "product": [
     {
       "id": 2001,
-      "name": "micROS-1.2Alpha-Standard-x86_64_F0OGA_20160127_T8D_T0",
+      "name": "ccc",
       "artifactVersion": "1.2Alpha",
       "description": "1.2Alpha 标准版 X86 20.04 GPU 完整版 20260127",
       "createTime": "2026-01-27T10:00:00"
     },
     {
       "id": 2002,
-      "name": "micROS-1.2Alpha-Standard-aarch64_B0INA_20160127_T8D_T0",
+      "name": "ddd",
       "artifactVersion": "1.2Alpha",
       "description": "1.2Alpha 标准版 arm 18.04 NPU 完整版 20260127",
       "createTime": "2026-01-27T10:00:00"
