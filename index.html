@@ -596,7 +596,7 @@
         const config = reactive({
           apiBaseUrl: '',
           showDownloadButton: true,
-          templateFileName: '电子申请单-出库单.doc'
+          templateFileName: '电子申请单-出库单.docx'
         });
 
         // 获取数据
@@ -669,7 +669,7 @@
         // 下载电子申请单模版
         const downloadTemplate = () => {
           // 从 data 目录下载
-          const fileName = config.templateFileName || '电子申请单-出库单.doc';
+          const fileName = config.templateFileName || '电子申请单-出库单.docx';
           window.location.href = `./data/${fileName}`;
         };
 
