@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>出入库流程与版本管理</title>
+  <!-- Element Plus CSS -->
+  <link rel="stylesheet" href="./assets/element-plus.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+      min-height: 100vh;
+      padding: 24px;
+    }
+
+    #app {
+      max-width: 100%;
+      margin: 0 auto;
+    }
+
+    /* 内容区域 */
+    .content-wrapper {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+      overflow: hidden;
+      animation: fadeInUp 0.8s ease-out;
+    }
+
+    /* 流程说明区域 */
+    .process-section {
+      padding: 32px;
+      border-bottom: 1px solid #f0f0f0;
+      background: linear-gradient(135deg, #f8f9ff 0%, #fff8f9 100%);
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px;
+    }
+
+    .section-title h2 {
+      font-size: 26px;
+      color: #1a1a1a;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      letter-spacing: 0.5px;
+    }
+
+    .section-title h2::before {
+      content: '';
+      width: 5px;
+      height: 28px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 3px;
+      box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+    }
+
+    .section-title .el-button {
+      font-size: 14px;
+      padding: 8px 16px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+    }
+
+    .section-title .el-button .el-icon {
+      margin-right: 6px;
+    }
+
+    .process-steps-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 28px;
+    }
+
+    .process-card {
+      background: white;
+      border-radius: 16px;
+      padding: 28px;
+      border: 2px solid transparent;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow-y: auto;
+      max-height: 700px;
+      position: relative;
+    }
+
+    .process-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+      border-radius: 16px 16px 0 0;
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+
+    .process-card:hover {
+      box-shadow: 0 8px 30px rgba(102, 126, 234, 0.25);
+      transform: translateY(-4px);
+      border-color: rgba(102, 126, 234, 0.2);
+    }
+
+    .process-card:hover::before {
+      opacity: 1;
+    }
+
+    .process-card-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid #f5f5f5;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .title-icon {
+      font-size: 26px;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+    }
+
+    @media (max-width: 1200px) {
+      .process-steps-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Steps组件样式优化 */
+    .process-card :deep(.el-step) {
+      padding-bottom: 20px;
+    }
+
+    .process-card :deep(.el-step__head) {
+      width: 32px;
+    }
+
+    .process-card :deep(.el-step__icon) {
+      width: 32px;
+      height: 32px;
+      font-size: 14px;
+    }
+
+    .process-card :deep(.el-step__icon.is-text) {
+      border-width: 2px;
+    }
+
+    .process-card :deep(.el-step__title) {
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 28px;
+      color: #303133;
+    }
+
+    .process-card :deep(.el-step__title.is-success) {
+      color: #67c23a;
+    }
+
+    .process-card :deep(.el-step__description) {
+      font-size: 14px;
+      line-height: 22px;
+      color: #606266;
+      padding-right: 16px;
+      margin-top: 6px;
+    }
+
+    .process-card :deep(.el-step__main) {
+      padding-left: 16px;
+    }
+
+    .process-card :deep(.el-step__line) {
+      left: 16px;
+    }
+
+
+    /* 版本信息区域 */
+    .version-section {
+      padding: 32px;
+      background: linear-gradient(135deg, #fff8f9 0%, #f8f9ff 100%);
+    }
+
+    /* Tab样式增强 */
+    .el-tabs {
+      --el-tabs-header-height: 56px;
+    }
+
+    .el-tabs__nav {
+      background: linear-gradient(135deg, #f5f7fa 0%, #f0f2ff 100%);
+      border-radius: 12px;
+      padding: 6px;
+      box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .el-tabs__item {
+      height: 44px;
+      line-height: 44px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      padding: 0 24px;
+    }
+
+    .el-tabs__item:hover {
+      color: #667eea;
+    }
+
+    .el-tabs__item.is-active {
+      background: white;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+      color: #667eea;
+    }
+
+    /* 表格增强 */
+    .version-table {
+      margin-top: 24px;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    }
+
+    .el-table {
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .el-table th {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+      color: white !important;
+      font-weight: 700;
+      font-size: 14px;
+      padding: 16px 0;
+      letter-spacing: 0.5px;
+    }
+
+    .el-table th .cell {
+      color: white;
+    }
+
+    .el-table tr {
+      transition: all 0.3s;
+    }
+
+    .el-table tr:hover {
+      background: linear-gradient(135deg, #f8f9ff 0%, #fff9f9 100%);
+      transform: scale(1.005);
+    }
+
+    .el-table td {
+      padding: 14px 0;
+      font-size: 14px;
+    }
+
+    .el-table td strong {
+      color: #303133;
+      font-weight: 600;
+    }
+
+    /* 日期列样式 */
+    .date-cell {
+      color: #909399;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    /* 版本号样式 */
+    .version-tag {
+      display: inline-block;
+      padding: 4px 12px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+      letter-spacing: 0.5px;
+    }
+
+    /* 按钮样式增强 */
+    .el-button--primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border: none;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+      transition: all 0.3s;
+    }
+
+    .el-button--primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+    }
+
+    .el-button--success {
+      background: linear-gradient(135deg, #67c23a 0%, #85ce61 100%);
+      border: none;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(103, 194, 58, 0.3);
+    }
+
+    .el-button--success:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(103, 194, 58, 0.4);
+    }
+
+    /* 表格操作列按钮样式 */
+    .version-table .el-button--small {
+      padding: 6px 12px !important;
+      font-size: 13px;
+      border-radius: 6px;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      text-align: center !important;
+      min-width: auto !important;
+    }
+
+    .version-table .el-button--small > span {
+      display: inline-block !important;
+      text-align: center !important;
+    }
+
+    /* 响应式 */
+    @media (max-width: 768px) {
+      body {
+        padding: 12px;
+      }
+
+      .process-section,
+      .version-section {
+        padding: 20px;
+      }
+
+      .section-title h2 {
+        font-size: 22px;
+      }
+    }
+
+    /* 动画效果 */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    .content-wrapper {
+      animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* 空状态 */
+    .empty-state {
+      text-align: center;
+      padding: 80px 20px;
+      color: #909399;
+      animation: fadeIn 0.6s;
+    }
+
+    .empty-state i {
+      font-size: 56px;
+      color: #dcdfe6;
+      margin-bottom: 20px;
+    }
+
+    .empty-state p {
+      font-size: 16px;
+      color: #909399;
+    }
+
+    /* 滚动条美化 */
+    .process-card::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .process-card::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 3px;
+    }
+
+    .process-card::-webkit-scrollbar-thumb {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 3px;
+    }
+
+    .process-card::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(135deg, #5568d3 0%, #653a8b 100%);
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <!-- 主内容区域 -->
+    <div class="content-wrapper">
+      <!-- 第一部分：出入库流程说明 -->
+      <div class="process-section">
+        <div class="section-title">
+          <h2>出入库流程整体说明</h2>
+          <el-button type="primary" @click="downloadTemplate">
+            下载电子申请单模版
+          </el-button>
+        </div>
+        <div class="process-steps-container">
+          <!-- 入库流程 -->
+          <div class="process-card">
+            <h3 class="process-card-title">
+              <el-icon class="title-icon" color="#67C23A"><Upload /></el-icon>
+              {{ inboundTitle }}
+            </h3>
+            <el-steps direction="vertical" :active="inboundSteps.length" finish-status="success">
+              <el-step 
+                v-for="(step, index) in inboundSteps" 
+                :key="index"
+                :title="step.title" 
+                :description="step.description"
+              ></el-step>
+            </el-steps>
+          </div>
+          
+          <!-- 出库流程 -->
+          <div class="process-card">
+            <h3 class="process-card-title">
+              <el-icon class="title-icon" color="#409EFF"><Download /></el-icon>
+              {{ outboundTitle }}
+            </h3>
+            <el-steps direction="vertical" :active="outboundSteps.length" finish-status="success">
+              <el-step 
+                v-for="(step, index) in outboundSteps" 
+                :key="index"
+                :title="step.title" 
+                :description="step.description"
+              ></el-step>
+            </el-steps>
+          </div>
+        </div>
+      </div>
+
+      <!-- 第二部分：版本信息 -->
+      <div class="version-section">
+        <div class="section-title" style="margin-bottom: 24px;">
+          <h2>版本信息管理</h2>
+        </div>
+
+        <el-tabs v-model="activeTab" type="card">
+          <!-- 受控库 -->
+          <el-tab-pane label="🔒 受控库" name="controlled">
+            <el-table
+              :data="controlledList"
+              class="version-table"
+              stripe
+              border
+              style="width: 100%"
+            >
+              <el-table-column prop="name" label="制品名称" width="700" show-overflow-tooltip>
+                <template #default="{ row }">
+                  <strong>{{ row.name }}</strong>
+                </template>
+              </el-table-column>
+              <el-table-column prop="version" label="版本号" width="120" align="center">
+                <template #default="{ row }">
+                  <span class="version-tag">{{ row.version }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column prop="remark" label="备注说明" min-width="300" show-overflow-tooltip>
+                <template #default="{ row }">
+                    <strong>{{ row.remark }}</strong>           
+                  </template>
+              </el-table-column>
+              <el-table-column prop="uploadDate" label="制品上传日期" width="200" align="center">
+                <template #default="{ row }">
+                  <span class="date-cell">{{ row.uploadDate }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column label="操作" width="100" align="center" fixed="right" v-if="config.showDownloadButton">
+                <template #default="{ row }">
+                  <el-button type="primary" size="small" @click="downloadArtifact(row)">
+                    下载
+                  </el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+            <div v-if="controlledList.length === 0" class="empty-state">
+              <el-icon><Document /></el-icon>
+              <p>暂无受控库制品数据</p>
+            </div>
+          </el-tab-pane>
+
+          <!-- 产品库 -->
+          <el-tab-pane label="🎯 产品库" name="product">
+            <el-table
+              :data="productList"
+              class="version-table"
+              stripe
+              border
+              style="width: 100%"
+            >
+              <el-table-column prop="name" label="制品名称" width="700" show-overflow-tooltip>
+                <template #default="{ row }">
+                  <strong>{{ row.name }}</strong>
+                </template>
+              </el-table-column>
+              <el-table-column prop="version" label="版本号" width="120" align="center">
+                <template #default="{ row }">
+                  <span class="version-tag">{{ row.version }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column prop="remark" label="备注说明" min-width="300" show-overflow-tooltip>
+                <template #default="{ row }">
+                    <strong>{{ row.remark }}</strong>           
+                  </template>
+              </el-table-column>
+              <el-table-column prop="uploadDate" label="制品上传日期" width="200" align="center">
+                <template #default="{ row }">
+                  <span class="date-cell">{{ row.uploadDate }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column label="操作" width="100" align="center" fixed="right" v-if="config.showDownloadButton">
+                <template #default="{ row }">
+                  <el-button type="primary" size="small" @click="downloadArtifact(row)">
+                    下载
+                  </el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+            <div v-if="productList.length === 0" class="empty-state">
+              <el-icon><Document /></el-icon>
+              <p>暂无产品库制品数据</p>
+            </div>
+          </el-tab-pane>
+        </el-tabs>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Vue 3 -->
+  <script src="./assets/vue.global.js"></script>
+  <!-- Element Plus JS -->
+  <script src="./assets/element-plus.js"></script>
+  <!-- Element Plus Icons -->
+  <script src="./assets/element-plus-icons.js"></script>
+
+  <script>
+    const { createApp, ref, reactive, onMounted } = Vue;
+    const { ElMessage } = ElementPlus;
+
+    createApp({
+      setup() {
+        // 流程步骤数据
+        const inboundTitle = ref('入库流程');
+        const inboundSteps = ref([]);
+        const outboundTitle = ref('出库流程');
+        const outboundSteps = ref([]);
+
+        // 版本信息部分
+        const activeTab = ref('controlled');
+        const controlledList = ref([]);
+        const productList = ref([]);
+
+        // 图标
+        const Document = ElementPlusIconsVue.Document;
+        const Upload = ElementPlusIconsVue.Upload;
+        const Download = ElementPlusIconsVue.Download;
+
+        // 配置信息
+        const config = reactive({
+          apiBaseUrl: '',
+          showDownloadButton: true,
+          templateFileName: 'application_template.doc'
+        });
+
+        // 获取数据
+        const fetchData = async () => {
+          try {
+            const timestamp = new Date().getTime();
+
+            // 1. 获取配置文件
+            try {
+              const configResponse = await fetch(`./data/config.json?t=${timestamp}`);
+              if (configResponse.ok) {
+                const configData = await configResponse.json();
+                if (configData.apiBaseUrl) config.apiBaseUrl = configData.apiBaseUrl;
+                if (configData.showDownloadButton !== undefined) config.showDownloadButton = configData.showDownloadButton;
+                if (configData.templateFileName) config.templateFileName = configData.templateFileName;
+              }
+            } catch (e) {
+              console.warn('Failed to load config.json, using default values', e);
+            }
+
+            // 2. 获取流程数据 (添加时间戳防止缓存)
+            const workflowResponse = await fetch(`./data/io_workflow.txt?t=${timestamp}`);
+            if (workflowResponse.ok) {
+              const workflowData = await workflowResponse.json();
+              if (workflowData.inbound) {
+                if (workflowData.inbound.name) inboundTitle.value = workflowData.inbound.name;
+                if (workflowData.inbound.processData) inboundSteps.value = workflowData.inbound.processData;
+              }
+              if (workflowData.outbound) {
+                if (workflowData.outbound.name) outboundTitle.value = workflowData.outbound.name;
+                if (workflowData.outbound.processData) outboundSteps.value = workflowData.outbound.processData;
+              }
+            } else {
+              console.error('Failed to load workflow data');
+            }
+
+            // 3. 获取制品数据 (添加时间戳防止缓存)
+            const artifactsResponse = await fetch(`./data/artifacts_export.txt?t=${timestamp}`);
+            if (artifactsResponse.ok) {
+              const artifactsData = await artifactsResponse.json();
+              
+              const mapArtifact = (item) => ({
+                id: item.id,
+                name: item.name,
+                version: item.artifactVersion || '', // 处理空版本
+                remark: item.description || '', // 处理空描述
+                uploadDate: item.createTime ? item.createTime.replace('T', ' ') : ''
+              });
+
+              if (artifactsData.controlled) {
+                controlledList.value = artifactsData.controlled.map(mapArtifact);
+              }
+              if (artifactsData.product) {
+                productList.value = artifactsData.product.map(mapArtifact);
+              }
+            } else {
+              console.error('Failed to load artifacts data');
+            }
+
+          } catch (error) {
+            console.error('Error fetching data:', error);
+            ElMessage.error('数据加载异常');
+          }
+        };
+
+        onMounted(() => {
+          fetchData();
+        });
+
+        // 下载电子申请单模版
+        const downloadTemplate = () => {
+          // 从 data 目录下载
+          const fileName = config.templateFileName || 'application_template.doc';
+          window.location.href = `./data/${fileName}`;
+        };
+
+        // 下载单个制品
+        const downloadArtifact = async (row) => {
+          if (!config.apiBaseUrl) {
+            ElMessage.warning('下载接口地址未配置');
+            return;
+          }
+          
+          try {
+            // 拼接后端接口地址
+            const baseUrl = config.apiBaseUrl.replace(/\/$/, '');
+            const apiUrl = `${baseUrl}/api/artifacts/${row.id}/download/api/public`;
+            
+            // 1. 先请求接口获取下载链接
+            // ElMessage.info('正在获取下载链接...');
+            const response = await fetch(apiUrl);
+            
+            if (response.ok) {
+              const resData = await response.json();
+              
+              // 2. 判断返回状态码
+              if (resData.code === 200 && resData.data) {
+                const downloadUrl = resData.data;
+
+                // 3. 预检文件是否存在
+                try {
+                  // 使用 fetch GET 请求预检 (HEAD 可能会因为签名不匹配返回 403)
+                  // 注意：需要对象存储服务开启 CORS，否则 fetch 会抛出网络错误，此时将降级为直接打开
+                  const controller = new AbortController();
+                  const checkRes = await fetch(downloadUrl, { 
+                    method: 'GET', 
+                    signal: controller.signal 
+                  });
+                  // 获取到状态码后立即中止请求，避免下载文件内容
+                  controller.abort();
+
+                  if (checkRes.status === 404) {
+                    ElMessage.warning('制品尚未准备好 请稍后再试');
+                    return;
+                  }
+                } catch (e) {
+                  // 忽略 fetch 过程中的错误（如 CORS 限制、网络中断等），继续尝试直接打开
+                  console.warn('Download pre-check failed:', e);
+                }
+
+                // 4. 打开实际的下载链接
+                window.open(downloadUrl, '_blank');
+                // ElMessage.success('开始下载');
+              } else {
+                // 错误处理
+                const errorMsg = resData.msg || '获取下载链接失败';
+                ElMessage.error(errorMsg);
+                console.error('Download failed:', resData);
+              }
+            } else {
+              ElMessage.error('网络请求失败');
+            }
+          } catch (error) {
+            console.error('Download error:', error);
+            ElMessage.error('下载过程中发生错误');
+          }
+        };
+
+        return {
+          // 流程数据
+          inboundTitle,
+          inboundSteps,
+          outboundTitle,
+          outboundSteps,
+          // 版本信息
+          activeTab,
+          controlledList,
+          productList,
+          // 图标
+          Document,
+          Upload,
+          Download,
+          // 方法
+          downloadTemplate,
+          downloadArtifact,
+          // 配置状态
+          config
+        };
+      }
+    }).use(ElementPlus).mount('#app');
+  </script>
+</body>
+</html>
+

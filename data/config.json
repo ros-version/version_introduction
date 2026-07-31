@@ -1,0 +1,14 @@
+{
+  "apiBaseUrl": "http://218.17.51.10:30085/",
+  "showDownloadButton": true,
+  "templates": [
+     {
+       "label": "下载电子申请单-出库单模板",
+       "fileName": "电子申请单-出库单.docx"
+     },
+     {
+       "label": "下载电子申请单-入库单模板",
+       "fileName": "电子申请单-入库单.docx"
+     }
+   ] 
+}

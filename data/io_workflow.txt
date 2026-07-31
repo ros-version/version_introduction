@@ -1,0 +1,79 @@
+{
+  "inbound": {
+    "name": "入库流程",
+    "type": 1,
+    "processData": [
+      {
+        "step": 1,
+        "title": "制品准备",
+        "description": "开发人员准备需要入库的制品文件，包括代码包、配置文件、文档等"
+      },
+      {
+        "step": 2,
+        "title": "提交申请",
+        "description": "填写入库申请表单，包括制品名称、版本号、类型等基本信息"
+      },
+      {
+        "step": 3,
+        "title": "质量检查",
+        "description": "质量团队对制品进行检查，确保符合入库标准和规范"
+      },
+      {
+        "step": 4,
+        "title": "审批流程",
+        "description": "相关负责人审批入库申请，确认制品可以入库"
+      },
+      {
+        "step": 5,
+        "title": "制品入库",
+        "description": "将制品上传至制品库，系统自动生成入库记录和版本信息"
+      },
+      {
+        "step": 6,
+        "title": "入库完成",
+        "description": "入库完成，系统发送通知，制品可供后续使用"
+      }
+    ]
+  },
+  "outbound": {
+    "name": "出库流程",
+    "type": 2,
+    "processData": [
+      {
+        "step": 1,
+        "title": "需求确认测试",
+        "description": "确认出库需求，明确需要的制品版本和数量"
+      },
+      {
+        "step": 2,
+        "title": "提交申请",
+        "description": "填写出库申请表单，包括接收单位、用途说明等信息"
+      },
+      {
+        "step": 3,
+        "title": "权限验证",
+        "description": "验证申请人是否有权限获取该制品"
+      },
+      {
+        "step": 4,
+        "title": "审批流程",
+        "description": "相关负责人审批出库申请"
+      },
+      {
+        "step": 5,
+        "title": "制品分发",
+        "description": "将制品分发给申请单位，可通过下载或其他方式"
+      },
+      {
+        "step": 6,
+        "title": "出库完成",
+        "description": "出库完成，系统生成出库记录，可追溯查询"
+      },
+      {
+        "step": 7,
+        "title": "测试步骤",
+        "description": "测试步骤测试步骤测试步骤"
+      }
+    ]
+  }
+}
