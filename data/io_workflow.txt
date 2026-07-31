@@ -51,28 +51,18 @@
       },
       {
         "step": 3,
-        "title": "权限验证",
-        "description": "验证申请人是否有权限获取该制品"
-      },
-      {
-        "step": 4,
         "title": "审批流程",
         "description": "相关负责人审批出库申请"
       },
       {
-        "step": 5,
+        "step": 4,
         "title": "制品分发",
         "description": "将制品分发给申请单位，可通过下载或其他方式"
       },
       {
-        "step": 6,
+        "step": 5,
         "title": "出库完成",
         "description": "出库完成，系统生成出库记录，可追溯查询"
-      },
-      {
-        "step": 7,
-        "title": "测试步骤",
-        "description": "测试步骤测试步骤测试步骤"
       }
     ]
   }
