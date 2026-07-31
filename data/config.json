@@ -1,6 +1,6 @@
 {
   "apiBaseUrl": "https://ros-version.github.io/version_introduction/",
-  "showDownloadButton": true,
+  "showDownloadButton": false,
   "templates": [
      {
        "label": "下载电子申请单-出库单模板",
