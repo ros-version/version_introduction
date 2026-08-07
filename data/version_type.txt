@@ -1,5 +1,5 @@
 [
-  { "type": "dev版", "modules": "测试环境使用，包含完整功能但版本可能不稳定" },
-  { "type": "base版", "modules": "正式发布版本，仅包含已验证通过的稳定功能" },
-  { "type": "mini版", "modules": "正式发布版本，仅包含已验证通过的稳定功能" }
+  { "type": "dev版", "modules": "dev版是包含了四域+OODA的完整版本" },
+  { "type": "base版", "modules": "base版是相对于dev版进行裁剪的版本，仅包含四域" },
+  { "type": "mini版", "modules": "mini版是仅包含行为树引擎的最新版本" }
 ]

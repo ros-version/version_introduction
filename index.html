@@ -707,12 +707,11 @@
               <strong>{{ row.remark }}</strong>
             </template>
           </el-table-column>
-<!--          <el-table-column prop="uploadDate" label="制品上传日期" width="200" align="center">
+          <el-table-column prop="uploadDate" label="制品上传日期" width="200" align="center">
             <template #default="{ row }">
               <span class="date-cell">{{ row.uploadDate }}</span>
             </template>
           </el-table-column>
--->
           <el-table-column label="操作" width="100" align="center" fixed="right" v-if="config.showDownloadButton">
             <template #default="{ row }">
               <el-button type="primary" size="small" @click="downloadArtifact(row)">
@@ -847,26 +846,15 @@
             if (artifactsResponse.ok) {
               const artifactsData = await artifactsResponse.json();
 
-              const mapArtifact = (item, category) => {
-              const desc = item.description || '';
-              let versionType = '';
-              if (desc.includes('DEV版本') || desc.includes('开发版') || desc.includes('测试')) {
-                versionType = 'dev版';
-              } else if (desc.includes('完整版')) {
-                versionType = 'base版';
-              } else {
-                versionType = 'mini版';
-              }
-              return {
+              const mapArtifact = (item, category) => ({
                 id: item.id,
                 category,
-                versionType,
+                versionType: item.versionType || '',
                 name: item.name,
                 version: item.artifactVersion || '',
-                remark: desc,
+                remark: item.description || '',
                 uploadDate: item.createTime ? item.createTime.replace('T', ' ') : ''
-              };
-            };
+              });
 
               const merged = [];
               if (artifactsData.controlled) {
@@ -917,16 +905,14 @@
         });
 
         // 下载电子申请单模版
+        // 下载电子申请单模版（二进制出库模版）
         const downloadTemplate = () => {
-          // 从 data 目录下载
-          const fileName = config.templateFileName || '电子申请单-出库单.docx';
-          window.location.href = `./data/${fileName}`;
+          window.location.href = './data/二进制出库模版.zip';
         };
 
-        // 下载源码出库申请单模版
+        // 下载源码出库申请单模版（源码出库模版）
         const downloadSourceCodeTemplate = () => {
-          const fileName = config.sourceCodeTemplateFileName || '源码出库申请单.docx';
-          window.location.href = `./data/${fileName}`;
+          window.location.href = './data/源码出库模版.zip';
         };
 
         // 合并相同"库分类"的单元格
