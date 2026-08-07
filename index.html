@@ -680,19 +680,19 @@
           style="width: 100%"
           :span-method="mergeCategoryCell"
         >
-          <el-table-column prop="category" label="库分类" width="120" align="center">
+          <el-table-column prop="category" label="库分类" width="100" align="center">
             <template #default="{ row }">
               <span :class="['category-tag', row.category === '受控库' ? 'category-controlled' : 'category-product']">
                 {{ row.category }}
               </span>
             </template>
           </el-table-column>
-          <el-table-column prop="versionType" label="版本类型" width="120" align="center">
+          <el-table-column prop="versionType" label="版本类型" width="170" align="center">
             <template #default="{ row }">
               <span class="version-type-tag">{{ row.versionType }}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="name" label="制品名称" width="560" show-overflow-tooltip>
+          <el-table-column prop="name" label="制品名称" width="430" show-overflow-tooltip>
             <template #default="{ row }">
               <strong>{{ row.name }}</strong>
             </template>
@@ -702,12 +702,12 @@
               <span class="version-tag">{{ row.version }}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="remark" label="版本说明" min-width="300" show-overflow-tooltip>
+          <el-table-column prop="remark" label="版本说明" min-width="450" show-overflow-tooltip>
             <template #default="{ row }">
               <strong>{{ row.remark }}</strong>
             </template>
           </el-table-column>
-          <el-table-column prop="uploadDate" label="制品上传日期" width="200" align="center">
+          <el-table-column prop="uploadDate" label="制品上传日期" width="150" align="center">
             <template #default="{ row }">
               <span class="date-cell">{{ row.uploadDate }}</span>
             </template>
