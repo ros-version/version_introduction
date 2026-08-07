@@ -36,7 +36,7 @@
     {
       "id": 2001,
       "name": "OS-1.2Alpha-Standard-x86_F0OGB_20260127_T3A_T0",
-      "artifactVersion": "1.2Alpha 实物版",
+      "artifactVersion": "1.2Alpha",
       "versionType": "标准版 dev版 实物版",
       "description": "包含了四域+OODA模块，适用于Ubuntu 20.04 X86架构 GPU机器部署",
       "createTime": "2026-01-27"
@@ -44,7 +44,7 @@
     {
       "id": 2002,
       "name": "OS-1.2Alpha-Embedded-aarch64_E01NB_20260127_O45_T0",
-      "artifactVersion": "1.2Alpha 实物版",
+      "artifactVersion": "1.2Alpha",
       "versionType": "嵌入式 dev版 实物版",
       "description": "包含了四域+OODA模块，适用于Euler 22.03 arm架构 NPU机器部署",
       "createTime": "2026-01-27"
