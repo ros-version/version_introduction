@@ -2,51 +2,35 @@
   "controlled": [
     {
       "id": 1001,
-      "name": "OS-1.6Alpha-Standard-x86_64_B0HGB_20260804_TD4_T0",
+      "name": "OS-1.2Alpha-Standard-x86_F0OGB_20260127_T3A_T0",
       "artifactVersion": "1.2Alpha",
-      "versionType": "标准版 dev版 实物版",
-      "description": "包含了四域+OODA模块，适用于Ubuntu 18.04 X86架构 GPU机器部署",
-      "createTime": "2026-08-04"
+      "versionType": "dev版",
+      "description": "适用于Ubuntu 20.04 GPU版本的dev版",
+      "createTime": "2026-01-27"
     },
     {
       "id": 1002,
-      "name": "OS-1.6Alpha-Standard-x86_64_F0OGB_20260804_TD4_T0",
+      "name": "bbb",
       "artifactVersion": "1.2Alpha",
-      "versionType": "标准版 dev版 实物版",
-      "description": "包含了四域+OODA模块，适用于Ubuntu 20.04 X86架构 GPU机器部署",
-      "createTime": "2026-08-04"
-    },
-    {
-      "id": 1003,
-      "name": "OS-1.6Alpha-Embedded-aarch64_E01NB_20260804_TD4_T0",
-      "artifactVersion": "1.6Alpha",
-      "versionType": "嵌入式 dev版 实物版",
-      "description": "包含了四域+OODA模块，适用于Euler 22.03 arm架构 NPU机器部署",
-      "createTime": "2026-08-04"
-    },
-    {
-      "id": 1004,
-      "name": "OS-1.6Alpha-Standard-aarch64_B0INB_20260804_TD4_T0",
-      "artifactVersion": "1.6Alpha",
-      "versionType": "标准版 dev版 实物版",
-      "description": "包含了四域+OODA模块，适用于Ubuntu 18.04 arm架构 NPU机器部署",
-      "createTime": "2026-08-04"
-    } ],
+      "versionType": "dev版",
+      "description": "1.2Alpha 嵌入式版 Euler 22.03 arm NPU DEV版本 20260127",
+      "createTime": "2026-01-27"
+    }  ],
   "product": [
     {
       "id": 2001,
-      "name": "OS-1.2Alpha-Standard-x86_F0OGB_20260127_T3A_T0",
+      "name": "ccc",
       "artifactVersion": "1.2Alpha",
-      "versionType": "标准版 dev版 实物版",
-      "description": "包含了四域+OODA模块，适用于Ubuntu 20.04 X86架构 GPU机器部署",
+      "versionType": "base版",
+      "description": "1.2Alpha 标准版 X86 20.04 GPU 完整版 20260127",
       "createTime": "2026-01-27"
     },
     {
       "id": 2002,
-      "name": "OS-1.2Alpha-Embedded-aarch64_E01NB_20260127_O45_T0",
+      "name": "ddd",
       "artifactVersion": "1.2Alpha",
-      "versionType": "嵌入式 dev版 实物版",
-      "description": "包含了四域+OODA模块，适用于Euler 22.03 arm架构 NPU机器部署",
+      "versionType": "base版",
+      "description": "1.2Alpha 标准版 arm 18.04 NPU 完整版 20260127",
       "createTime": "2026-01-27"
     }  ]
 }
