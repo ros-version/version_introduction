@@ -30,7 +30,7 @@
       {
         "step": 5,
         "title": "验证申请材料",
-        "description": "检查申请材料是否齐全并合规，检查完毕视情况整改后进行下一步",
+        "description": "检查申请材料是否齐全及合规性，材料无误后进行下一步",
         "image": "./assets/images/step5.png"
       },
       {
@@ -48,38 +48,50 @@
     ]
   },
   "outbound": {
-    "name": "出库流程",
+    "name": "二进制出库流程",
     "type": 2,
     "processData": [
       {
         "step": 1,
-        "title": "需求确认测试",
-        "description": "确认出库需求，明确需要的制品版本和数量",
+        "title": "需求确认",
+        "description": "确认出库需求，明确需要的出库的二进制版本名称",
         "image": "./assets/images/out-step1.png"
       },
       {
         "step": 2,
-        "title": "提交申请",
-        "description": "填写出库申请表单，包括接收单位、用途说明等信息",
+        "title": "提交线上申请",
+        "description": "编写线上申请（具体发送内容见模版），通过微信或其他形式发送给版本管理人员",
         "image": "./assets/images/step2.png"
       },
       {
         "step": 3,
-        "title": "审批流程",
-        "description": "相关负责人审批出库申请",
+        "title": "准备纸质申请单",
+        "description": "填写纸质出库申请表单，包括流向、用途说明等信息，申请人手写签字，并在公章处盖章",
         "image": "./assets/images/step3.png"
       },
       {
         "step": 4,
-        "title": "制品分发",
-        "description": "将制品分发给申请单位，可通过下载或其他方式",
+        "title": "审批流程",
+        "description": "线上审批通过后可递交纸质申请，材料齐全后可进行二进制版本出库",
         "image": "./assets/images/step4.png"
       },
       {
         "step": 5,
-        "title": "出库完成",
-        "description": "出库完成，系统生成出库记录，可追溯查询",
+        "title": "验证申请材料",
+        "description": "检查申请材料是否齐全及合规性，材料无误后进行下一步",
         "image": "./assets/images/step5.png"
+      },
+      {
+        "step": 6,
+        "title": "刻盘及交付",
+        "description": "将源码刻盘交付给申请方，填写联调室导出登记表",
+        "image": "./assets/images/step6.png"
+      },
+      {
+        "step": 7,
+        "title": "回收归档",
+        "description": "回收光盘，完成源码出库闭环",
+        "image": "./assets/images/step7.png"
       }
     ]
   }
