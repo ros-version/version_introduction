@@ -295,6 +295,87 @@
       letter-spacing: 0.5px;
     }
 
+    /* 版本类型表格样式 */
+    .version-type-table {
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    }
+
+    .version-type-table .el-table__header-wrapper th {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+      color: white !important;
+      font-weight: 700;
+      font-size: 14px;
+      padding: 14px 0;
+    }
+
+    .version-type-table .el-table__header-wrapper th .cell {
+      color: white;
+    }
+
+    .version-type-table td {
+      padding: 12px 0;
+      font-size: 14px;
+      color: #303133;
+    }
+
+    .version-type-tag {
+      display: inline-block;
+      padding: 4px 12px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+    }
+
+    /* 库分类标签 */
+    .category-tag {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+
+    .category-controlled {
+      background: linear-gradient(135deg, #f56c6c 0%, #f89898 100%);
+      color: white;
+      box-shadow: 0 2px 6px rgba(245, 108, 108, 0.3);
+    }
+
+    .category-product {
+      background: linear-gradient(135deg, #67c23a 0%, #95d475 100%);
+      color: white;
+      box-shadow: 0 2px 6px rgba(103, 194, 58, 0.3);
+    }
+
+    /* 信息表格并排布局 */
+    .info-tables-row {
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+    }
+    .info-table-wrapper {
+      flex: 1;
+      min-width: 0;
+    }
+
+    /* 产品类型标签 */
+    .product-type-tag {
+      display: inline-block;
+      padding: 4px 12px;
+      background: linear-gradient(135deg, #409eff 0%, #66b1ff 100%);
+      color: white;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba(64, 158, 255, 0.3);
+    }
+
     /* 按钮样式增强 */
     .el-button--primary {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -546,127 +627,118 @@
           <h2>版本信息管理</h2>
         </div>
 
-        <!-- 版本类型介绍表格 -->
+        <div class="info-tables-row">
+          <!-- 版本类型介绍表格 -->
+          <div class="info-table-wrapper">
+            <el-table
+              :data="versionTypeList"
+              class="version-type-table"
+              border
+              style="width: 100%; margin-bottom: 24px;"
+            >
+              <el-table-column prop="type" label="版本类型" width="200" align="center">
+                <template #default="{ row }">
+                  <span class="version-type-tag">{{ row.type }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column prop="modules" label="所含模块" min-width="400">
+                <template #default="{ row }">
+                  <span>{{ row.modules }}</span>
+                </template>
+              </el-table-column>
+            </el-table>
+          </div>
+
+          <!-- 产品类型介绍表格 -->
+          <div class="info-table-wrapper">
+            <el-table
+              :data="productTypeList"
+              class="version-type-table"
+              border
+              style="width: 100%; margin-bottom: 24px;"
+            >
+              <el-table-column prop="type" label="产品类型" width="200" align="center">
+                <template #default="{ row }">
+                  <span class="product-type-tag">{{ row.type }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column prop="description" label="类型描述" min-width="400">
+                <template #default="{ row }">
+                  <span>{{ row.description }}</span>
+                </template>
+              </el-table-column>
+            </el-table>
+          </div>
+        </div>
+
+        <!-- 制品列表 -->
         <el-table
-          :data="versionTypeList"
-          class="version-type-table"
+          :data="artifactList"
+          class="version-table"
+          stripe
           border
-          style="width: 100%; margin-bottom: 24px;"
+          style="width: 100%"
+          :span-method="mergeCategoryCell"
         >
-          <el-table-column prop="type" label="版本类型" width="200" align="center">
+          <el-table-column prop="category" label="库分类" width="100" align="center">
             <template #default="{ row }">
-              <span class="version-type-tag">{{ row.type }}</span>
+              <span :class="['category-tag', row.category === '受控库' ? 'category-controlled' : 'category-product']">
+                {{ row.category }}
+              </span>
             </template>
           </el-table-column>
-          <el-table-column prop="modules" label="所含模块" min-width="400">
+          <el-table-column prop="versionType" label="版本类型" width="170" align="center">
             <template #default="{ row }">
-              <span>{{ row.modules }}</span>
+              <span class="version-type-tag">{{ row.versionType }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="name" label="制品名称" width="430" show-overflow-tooltip>
+            <template #default="{ row }">
+              <strong>{{ row.name }}</strong>
+            </template>
+          </el-table-column>
+          <el-table-column prop="version" label="版本号" width="120" align="center">
+            <template #default="{ row }">
+              <span class="version-tag">{{ row.version }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="remark" label="版本说明" min-width="450" show-overflow-tooltip>
+            <template #default="{ row }">
+              <strong>{{ row.remark }}</strong>
+            </template>
+          </el-table-column>
+          <el-table-column prop="uploadDate" label="制品上传日期" width="150" align="center">
+            <template #default="{ row }">
+              <span class="date-cell">{{ row.uploadDate }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="操作" width="100" align="center" fixed="right" v-if="config.showDownloadButton">
+            <template #default="{ row }">
+              <el-button type="primary" size="small" @click="downloadArtifact(row)">
+                下载
+              </el-button>
             </template>
           </el-table-column>
         </el-table>
-
-        <el-tabs v-model="activeTab" type="card">
-          <!-- 受控库 -->
-          <el-tab-pane label="🔒 受控库" name="controlled">
-            <el-table
-              :data="controlledList"
-              class="version-table"
-              stripe
-              border
-              style="width: 100%"
-            >
-              <el-table-column prop="name" label="制品名称" width="700" show-overflow-tooltip>
-                <template #default="{ row }">
-                  <strong>{{ row.name }}</strong>
-                </template>
-              </el-table-column>
-              <el-table-column prop="version" label="版本号" width="120" align="center">
-                <template #default="{ row }">
-                  <span class="version-tag">{{ row.version }}</span>
-                </template>
-              </el-table-column>
-              <el-table-column prop="remark" label="备注说明" min-width="300" show-overflow-tooltip>
-                <template #default="{ row }">
-                    <strong>{{ row.remark }}</strong>           
-                  </template>
-              </el-table-column>
-              <el-table-column prop="uploadDate" label="制品上传日期" width="200" align="center">
-                <template #default="{ row }">
-                  <span class="date-cell">{{ row.uploadDate }}</span>
-                </template>
-              </el-table-column>
-              <el-table-column label="操作" width="100" align="center" fixed="right" v-if="config.showDownloadButton">
-                <template #default="{ row }">
-                  <el-button type="primary" size="small" @click="downloadArtifact(row)">
-                    下载
-                  </el-button>
-                </template>
-              </el-table-column>
-            </el-table>
-            <div v-if="controlledList.length === 0" class="empty-state">
-              <el-icon><Document /></el-icon>
-              <p>暂无受控库制品数据</p>
-            </div>
-          </el-tab-pane>
-
-          <!-- 产品库 -->
-          <el-tab-pane label="🎯 产品库" name="product">
-            <el-table
-              :data="productList"
-              class="version-table"
-              stripe
-              border
-              style="width: 100%"
-            >
-              <el-table-column prop="name" label="制品名称" width="700" show-overflow-tooltip>
-                <template #default="{ row }">
-                  <strong>{{ row.name }}</strong>
-                </template>
-              </el-table-column>
-              <el-table-column prop="version" label="版本号" width="120" align="center">
-                <template #default="{ row }">
-                  <span class="version-tag">{{ row.version }}</span>
-                </template>
-              </el-table-column>
-              <el-table-column prop="remark" label="备注说明" min-width="300" show-overflow-tooltip>
-                <template #default="{ row }">
-                    <strong>{{ row.remark }}</strong>           
-                  </template>
-              </el-table-column>
-              <el-table-column prop="uploadDate" label="制品上传日期" width="200" align="center">
-                <template #default="{ row }">
-                  <span class="date-cell">{{ row.uploadDate }}</span>
-                </template>
-              </el-table-column>
-              <el-table-column label="操作" width="100" align="center" fixed="right" v-if="config.showDownloadButton">
-                <template #default="{ row }">
-                  <el-button type="primary" size="small" @click="downloadArtifact(row)">
-                    下载
-                  </el-button>
-                </template>
-              </el-table-column>
-            </el-table>
-            <div v-if="productList.length === 0" class="empty-state">
-              <el-icon><Document /></el-icon>
-              <p>暂无产品库制品数据</p>
-            </div>
-          </el-tab-pane>
-        </el-tabs>
+        <div v-if="artifactList.length === 0" class="empty-state">
+          <el-icon><Document /></el-icon>
+          <p>暂无制品数据</p>
+        </div>
       </div>
     </div>
 
-  </div>
+    <!-- 图片预览弹窗 -->
+    <el-dialog
+      v-model="imagePreviewVisible"
+      :title="imagePreviewTitle"
+      width="80%"
+      class="image-preview-dialog"
+      :close-on-click-modal="true"
+    >
+      <img v-if="imagePreviewUrl" :src="imagePreviewUrl" class="preview-image" />
+    </el-dialog>
 
-  <!-- 图片预览弹窗 -->
-  <el-dialog
-    v-model="imagePreviewVisible"
-    :title="imagePreviewTitle"
-    width="80%"
-    class="image-preview-dialog"
-    :close-on-click-modal="true"
-  >
-    <img v-if="imagePreviewUrl" :src="imagePreviewUrl" class="preview-image" />
-  </el-dialog>
+  </div>
 
   <!-- Vue 3 -->
   <script src="./assets/vue.global.js"></script>
@@ -691,6 +763,18 @@
         const activeTab = ref('controlled');
         const controlledList = ref([]);
         const productList = ref([]);
+        const artifactList = ref([]);
+        const versionTypeList = ref([
+          { type: 'dev版', modules: '测试环境使用，包含完整功能但版本可能不稳定' },
+          { type: 'base版', modules: '正式发布版本，仅包含已验证通过的稳定功能' },
+          { type: 'mini版', modules: '正式发布版本，仅包含已验证通过的稳定功能' }
+        ]);
+
+        const productTypeList = ref([
+          { type: '标准版', description: '面向通用服务器场景的通用版本' },
+          { type: '嵌入式版', description: '面向嵌入式设备场景的紧凑版本' },
+          { type: '云端版', description: '面向云端部署优化的版本' }
+        ]);
 
         // 图标
         const Document = ElementPlusIconsVue.Document;
@@ -761,23 +845,53 @@
             const artifactsResponse = await fetch(`./data/artifacts_export.txt?t=${timestamp}`);
             if (artifactsResponse.ok) {
               const artifactsData = await artifactsResponse.json();
-              
-              const mapArtifact = (item) => ({
+
+              const mapArtifact = (item, category) => ({
                 id: item.id,
+                category,
+                versionType: item.versionType || '',
                 name: item.name,
-                version: item.artifactVersion || '', // 处理空版本
-                remark: item.description || '', // 处理空描述
+                version: item.artifactVersion || '',
+                remark: item.description || '',
                 uploadDate: item.createTime ? item.createTime.replace('T', ' ') : ''
               });
 
+              const merged = [];
               if (artifactsData.controlled) {
-                controlledList.value = artifactsData.controlled.map(mapArtifact);
+                artifactsData.controlled.forEach(item => merged.push(mapArtifact(item, '受控库')));
               }
               if (artifactsData.product) {
-                productList.value = artifactsData.product.map(mapArtifact);
+                artifactsData.product.forEach(item => merged.push(mapArtifact(item, '产品库')));
               }
+              artifactList.value = merged;
             } else {
               console.error('Failed to load artifacts data');
+            }
+
+            // 4. 获取版本类型介绍数据
+            try {
+              const versionTypeResponse = await fetch(`./data/version_type.txt?t=${timestamp}`);
+              if (versionTypeResponse.ok) {
+                const versionTypeData = await versionTypeResponse.json();
+                if (Array.isArray(versionTypeData)) {
+                  versionTypeList.value = versionTypeData;
+                }
+              }
+            } catch (e) {
+              console.warn('Failed to load version type data', e);
+            }
+
+            // 5. 获取产品类型介绍数据
+            try {
+              const productTypeResponse = await fetch(`./data/product_type.txt?t=${timestamp}`);
+              if (productTypeResponse.ok) {
+                const productTypeData = await productTypeResponse.json();
+                if (Array.isArray(productTypeData)) {
+                  productTypeList.value = productTypeData;
+                }
+              }
+            } catch (e) {
+              console.warn('Failed to load product type data', e);
             }
 
           } catch (error) {
@@ -791,16 +905,30 @@
         });
 
         // 下载电子申请单模版
+        // 下载电子申请单模版（二进制出库模版）
         const downloadTemplate = () => {
-          // 从 data 目录下载
-          const fileName = config.templateFileName || '电子申请单-出库单.docx';
-          window.location.href = `./data/${fileName}`;
+          window.location.href = './data/二进制出库模版.zip';
         };
 
-        // 下载源码出库申请单模版
+        // 下载源码出库申请单模版（源码出库模版）
         const downloadSourceCodeTemplate = () => {
-          const fileName = config.sourceCodeTemplateFileName || '源码出库申请单.docx';
-          window.location.href = `./data/${fileName}`;
+          window.location.href = './data/源码出库模版.zip';
+        };
+
+        // 合并相同"库分类"的单元格
+        const mergeCategoryCell = ({ rowIndex, columnIndex }) => {
+          if (columnIndex !== 0) return [1, 1];
+          const data = artifactList.value;
+          const cur = data[rowIndex].category;
+          // 已被上方合并
+          if (rowIndex > 0 && data[rowIndex - 1].category === cur) return [0, 0];
+          // 计算 rowspan
+          let rowspan = 1;
+          for (let i = rowIndex + 1; i < data.length; i++) {
+            if (data[i].category === cur) rowspan++;
+            else break;
+          }
+          return [rowspan, 1];
         };
 
         // 下载单个制品
@@ -875,6 +1003,9 @@
           activeTab,
           controlledList,
           productList,
+          artifactList,
+          versionTypeList,
+          productTypeList,
           // 图标
           Document,
           Upload,
@@ -883,6 +1014,12 @@
           downloadTemplate,
           downloadSourceCodeTemplate,
           downloadArtifact,
+          mergeCategoryCell,
+          handleImageError,
+          previewImage,
+          imagePreviewVisible,
+          imagePreviewUrl,
+          imagePreviewTitle,
           // 配置状态
           config
         };
