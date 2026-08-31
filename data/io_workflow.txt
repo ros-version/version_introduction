@@ -5,42 +5,48 @@
     "processData": [
       {
         "step": 1,
+        "title": "源码出库原则",
+        "description": "源码出库原则为仅可出库单模块代码",
+        "image": "./assets/images/step1.png"
+      },
+      {
+        "step": 2,
         "title": "申请材料准备",
         "description": "申请人员可先下载源码出库申请单模版，查看具体填写要求",
         "image": "./assets/images/step1.png"
       },
       {
-        "step": 2,
+        "step": 3,
         "title": "填写纸质申请",
-        "description": "填写源码出库申请单，申请人处由申请方项目负责人签字并盖院/所公章，以及提供单位申请函",
+        "description": "填写源码出库申请单，申请人处由申请方项目负责人签字并盖院/所公章，以及提供单位申请函 \n 提前记录代码存放电脑的硬盘序列号，用于后续签订保密承诺书",
         "image": "./assets/images/step2.png"
       },
       {
-        "step": 3,
+        "step": 4,
         "title": "线上申请",
         "description": "填写线上申请信息，通过微信发给版本管理人员，线上申请通过后提交纸质材料并获取源码",
         "image": "./assets/images/step3.png"
       },
       {
-        "step": 4,
+        "step": 5,
         "title": "审批流程",
         "description": "相关负责人线上审批通过后，申请人携带纸质材料至版本组获取源码",
         "image": "./assets/images/step4.png"
       },
       {
-        "step": 5,
+        "step": 6,
         "title": "验证申请材料",
         "description": "检查申请材料是否齐全及合规性，材料无误后进行下一步",
         "image": "./assets/images/step5.png"
       },
       {
-        "step": 6,
+        "step": 7,
         "title": "刻盘及交付",
-        "description": "将源码刻盘交付给申请方，填写联调室导出登记表",
+        "description": "将源码刻盘交付给申请方，填写保密承诺书、联调室导出登记表",
         "image": "./assets/images/step6.png"
       },
       {
-        "step": 7,
+        "step": 8,
         "title": "回收归档",
         "description": "回收光盘，完成源码出库闭环",
         "image": "./assets/images/step7.png"
@@ -48,7 +54,7 @@
     ]
   },
   "outbound": {
-    "name": "二进制出库流程",
+    "name": "二进制版本出库流程",
     "type": 2,
     "processData": [
       {
@@ -66,7 +72,7 @@
       {
         "step": 3,
         "title": "准备纸质申请单",
-        "description": "填写纸质出库申请表单，包括流向、用途说明等信息，申请人手写签字，并在公章处盖章",
+        "description": "填写纸质出库申请表单，包括流向、用途说明等信息，申请人手写签字，并在公章处盖章 \n 提前记录二进制版本存放电脑的硬盘序列号，用于后续签订保密承诺书",
         "image": "./assets/images/step3.png"
       },
       {
@@ -84,7 +90,7 @@
       {
         "step": 6,
         "title": "刻盘及交付",
-        "description": "将二进制刻盘交付给申请方，填写联调室导出登记表",
+        "description": "将二进制刻盘交付给申请方，填写保密承诺书、联调室导出登记表",
         "image": "./assets/images/step6.png"
       },
       {
