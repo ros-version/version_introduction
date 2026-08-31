@@ -1,5 +1,4 @@
 [
-  { "type": "dev版", "modules": "dev版是包含了四域+OODA的完整版本" },
-  { "type": "base版", "modules": "base版是相对于dev版进行裁剪的版本，仅包含四域" },
-  { "type": "mini版", "modules": "mini版是仅包含行为树引擎的最新版本" }
+  { "type": "dev版", "modules": "dev版是包含了四域+OODA的完整版本，主要用于完整项目开发" },
+  { "type": "base版", "modules": "base版是仅包含四域的版本，主要用于涉及行为树、模型、场景模块的二次开发" }
 ]

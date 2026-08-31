@@ -134,6 +134,11 @@
       gap: 12px;
     }
 
+    .process-card-title .el-button {
+      font-size: 13px;
+      padding: 6px 12px;
+    }
+
     .title-icon {
       font-size: 26px;
       filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
@@ -564,44 +569,19 @@
       <!-- 第一部分：出入库流程说明 -->
       <div class="process-section">
         <div class="section-title">
-          <h2>出入库流程整体说明</h2>
-          <div style="display: flex; gap: 10px;">
-            <el-button type="primary" @click="downloadSourceCodeTemplate">
-              下载源码出库申请单模版
-            </el-button>
-            <el-button type="primary" @click="downloadTemplate">
-              下载电子申请单模版
-            </el-button>
-          </div>
+          <h2>OS对外出库说明</h2>
         </div>
         <div class="process-steps-container">
-          <!-- 入库流程 -->
-          <div class="process-card">
-            <h3 class="process-card-title">
-              <el-icon class="title-icon" color="#67C23A"><Upload /></el-icon>
-              {{ inboundTitle }}
-            </h3>
-            <el-steps direction="vertical" :active="inboundSteps.length" finish-status="success">
-              <el-step
-                v-for="(step, index) in inboundSteps"
-                :key="index"
-                :title="step.title"
-              >
-                <template #description>
-                  <div>{{ step.description }}</div>
-                  <div v-if="step.image" class="step-image-container" @click="previewImage(step.image, step.title)">
-                    <img :src="step.image" class="step-image" @error="handleImageError" />
-                  </div>
-                </template>
-              </el-step>
-            </el-steps>
-          </div>
+
           
-          <!-- 出库流程 -->
+          <!-- 二进制出库流程 -->
           <div class="process-card">
             <h3 class="process-card-title">
               <el-icon class="title-icon" color="#409EFF"><Download /></el-icon>
               {{ outboundTitle }}
+              <el-button type="primary" size="small" @click="downloadTemplate" style="margin-left: auto;">
+                下载二进制版本电子申请单模版
+              </el-button>
             </h3>
             <el-steps direction="vertical" :active="outboundSteps.length" finish-status="success">
               <el-step
@@ -618,17 +598,43 @@
               </el-step>
             </el-steps>
           </div>
+
+          <!-- 源码出库流程 -->
+          <div class="process-card">
+            <h3 class="process-card-title">
+              <el-icon class="title-icon" color="#67C23A"><Upload /></el-icon>
+              {{ inboundTitle }}
+              <el-button type="primary" size="small" @click="downloadSourceCodeTemplate" style="margin-left: auto;">
+                下载源码出库申请单模版
+              </el-button>
+            </h3>
+            <el-steps direction="vertical" :active="inboundSteps.length" finish-status="success">
+              <el-step
+                v-for="(step, index) in inboundSteps"
+                :key="index"
+                :title="step.title"
+              >
+                <template #description>
+                  <div>{{ step.description }}</div>
+                  <div v-if="step.image" class="step-image-container" @click="previewImage(step.image, step.title)">
+                    <img :src="step.image" class="step-image" @error="handleImageError" />
+                  </div>
+                </template>
+              </el-step>
+            </el-steps>
+          </div>
+
         </div>
       </div>
 
       <!-- 第二部分：版本信息 -->
       <div class="version-section">
         <div class="section-title" style="margin-bottom: 24px;">
-          <h2>版本信息管理</h2>
+          <h2>版本说明</h2>
         </div>
 
         <div class="info-tables-row">
-          <!-- 版本类型介绍表格 -->
+          <!-- 版本说明介绍表格 -->
           <div class="info-table-wrapper">
             <el-table
               :data="versionTypeList"
@@ -636,7 +642,7 @@
               border
               style="width: 100%; margin-bottom: 24px;"
             >
-              <el-table-column prop="type" label="版本类型" width="200" align="center">
+              <el-table-column prop="type" label="定制版本" width="200" align="center">
                 <template #default="{ row }">
                   <span class="version-type-tag">{{ row.type }}</span>
                 </template>
@@ -649,17 +655,17 @@
             </el-table>
           </div>
 
-          <!-- 产品类型介绍表格 -->
+          <!-- 版本类型说明表格 -->
           <div class="info-table-wrapper">
             <el-table
-              :data="productTypeList"
+              :data="versionDescList"
               class="version-type-table"
               border
               style="width: 100%; margin-bottom: 24px;"
             >
-              <el-table-column prop="type" label="产品类型" width="200" align="center">
+              <el-table-column prop="type" label="版本类型" width="200" align="center">
                 <template #default="{ row }">
-                  <span class="product-type-tag">{{ row.type }}</span>
+                  <span class="version-type-tag">{{ row.type }}</span>
                 </template>
               </el-table-column>
               <el-table-column prop="description" label="类型描述" min-width="400">
@@ -669,6 +675,31 @@
               </el-table-column>
             </el-table>
           </div>
+        </div>
+
+        <!-- 产品线介绍表格 -->
+        <div class="info-table-wrapper" style="margin-bottom: 24px;">
+          <el-table
+            :data="productTypeList"
+            class="version-type-table"
+            border
+            style="width: 100%"
+          >
+            <el-table-column prop="type" label="产品线" width="200" align="center">
+              <template #default="{ row }">
+                <span class="product-type-tag">{{ row.type }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column prop="description" label="产品描述" min-width="400">
+              <template #default="{ row }">
+                <span>{{ row.description }}</span>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+
+        <div class="section-title" style="margin-bottom: 24px;">
+          <h2>可出库版本列表</h2>
         </div>
 
         <!-- 制品列表 -->
@@ -774,6 +805,11 @@
           { type: '标准版', description: '面向通用服务器场景的通用版本' },
           { type: '嵌入式版', description: '面向嵌入式设备场景的紧凑版本' },
           { type: '云端版', description: '面向云端部署优化的版本' }
+        ]);
+
+        const versionDescList = ref([
+          { type: '仿真版', description: '仿真版本用于仿真模拟适配' },
+          { type: '实物版', description: '实物版本用于实物载荷适配' }
         ]);
 
         // 图标
@@ -1006,6 +1042,7 @@
           artifactList,
           versionTypeList,
           productTypeList,
+          versionDescList,
           // 图标
           Document,
           Upload,
