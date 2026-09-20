@@ -7,13 +7,13 @@
         "step": 1,
         "title": "源码出库原则",
         "description": "源码出库原则为仅可出库单模块代码",
-        "image": "./assets/images/step1.png"
+        "image": "./assets/images/step11.png"
       },
       {
         "step": 2,
         "title": "申请材料准备",
         "description": "申请人员可先下载源码出库申请单模版，查看具体填写要求",
-        "image": "./assets/images/step1.png"
+        "image": "./assets/images/step11.png"
       },
       {
         "step": 3,
@@ -61,7 +61,7 @@
         "step": 1,
         "title": "需求确认",
         "description": "确认出库需求，明确需要的出库的二进制版本名称",
-        "image": "./assets/images/out-step1.png"
+        "image": "./assets/images/step1.png"
       },
       {
         "step": 2,
